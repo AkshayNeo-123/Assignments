@@ -1,0 +1,14 @@
+C:\Users\User\source\CollectionsHackathon\bin\Debug\net8.0\CollectionsHackathon.exe
+C:\Users\User\source\CollectionsHackathon\bin\Debug\net8.0\CollectionsHackathon.deps.json
+C:\Users\User\source\CollectionsHackathon\bin\Debug\net8.0\CollectionsHackathon.runtimeconfig.json
+C:\Users\User\source\CollectionsHackathon\bin\Debug\net8.0\CollectionsHackathon.dll
+C:\Users\User\source\CollectionsHackathon\bin\Debug\net8.0\CollectionsHackathon.pdb
+C:\Users\User\source\CollectionsHackathon\obj\Debug\net8.0\CollectionsHackathon.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\CollectionsHackathon\obj\Debug\net8.0\CollectionsHackathon.AssemblyInfoInputs.cache
+C:\Users\User\source\CollectionsHackathon\obj\Debug\net8.0\CollectionsHackathon.AssemblyInfo.cs
+C:\Users\User\source\CollectionsHackathon\obj\Debug\net8.0\CollectionsHackathon.csproj.CoreCompileInputs.cache
+C:\Users\User\source\CollectionsHackathon\obj\Debug\net8.0\CollectionsHackathon.dll
+C:\Users\User\source\CollectionsHackathon\obj\Debug\net8.0\refint\CollectionsHackathon.dll
+C:\Users\User\source\CollectionsHackathon\obj\Debug\net8.0\CollectionsHackathon.pdb
+C:\Users\User\source\CollectionsHackathon\obj\Debug\net8.0\CollectionsHackathon.genruntimeconfig.cache
+C:\Users\User\source\CollectionsHackathon\obj\Debug\net8.0\ref\CollectionsHackathon.dll
