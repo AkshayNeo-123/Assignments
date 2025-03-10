@@ -1,0 +1,14 @@
+C:\Users\User\source\repos\Assingment6\bin\Debug\net8.0\Assingment6.exe
+C:\Users\User\source\repos\Assingment6\bin\Debug\net8.0\Assingment6.deps.json
+C:\Users\User\source\repos\Assingment6\bin\Debug\net8.0\Assingment6.runtimeconfig.json
+C:\Users\User\source\repos\Assingment6\bin\Debug\net8.0\Assingment6.dll
+C:\Users\User\source\repos\Assingment6\bin\Debug\net8.0\Assingment6.pdb
+C:\Users\User\source\repos\Assingment6\obj\Debug\net8.0\Assingment6.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\Assingment6\obj\Debug\net8.0\Assingment6.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\Assingment6\obj\Debug\net8.0\Assingment6.AssemblyInfo.cs
+C:\Users\User\source\repos\Assingment6\obj\Debug\net8.0\Assingment6.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Assingment6\obj\Debug\net8.0\Assingment6.dll
+C:\Users\User\source\repos\Assingment6\obj\Debug\net8.0\refint\Assingment6.dll
+C:\Users\User\source\repos\Assingment6\obj\Debug\net8.0\Assingment6.pdb
+C:\Users\User\source\repos\Assingment6\obj\Debug\net8.0\Assingment6.genruntimeconfig.cache
+C:\Users\User\source\repos\Assingment6\obj\Debug\net8.0\ref\Assingment6.dll
