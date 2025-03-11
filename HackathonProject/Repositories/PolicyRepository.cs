@@ -1,61 +1,234 @@
-﻿using InsurancePolicyManagementApp.Interfaces;
-using InsurancePolicyManagementApp.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Data.SqlClient;
+using InsurancePolicyManagementApp.Interfaces;
+using InsurancePolicyManagementApp.Models;
+using CollectionsHackathon.Utility;
 
 namespace InsurancePolicyManagementApp.Repositories
 {
     public class PolicyRepository : IPolicyRepository
     {
-        private List<Policy> policies = new List<Policy>();
+        private string connectionString = DbConnUtil.GetConnectionString(); 
 
-       
+        // Add a new policy
         public void AddPolicy(Policy policy)
         {
-            
-            if (policies.Any(p => p.PolicyID == policy.PolicyID))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                throw new Exception("Policy ID already exists.");
+                try
+                {
+                    connection.Open();
+
+                    var query = "INSERT INTO Policies (PolicyID, PolicyHolderName, PolicyType, StartDate, EndDate) " +
+                                "VALUES (@PolicyID, @PolicyHolderName, @PolicyType, @StartDate, @EndDate)";
+
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@PolicyID", policy.PolicyID);
+                    command.Parameters.AddWithValue("@PolicyHolderName", policy.PolicyHolderName);
+
+                    
+                    command.Parameters.AddWithValue("@PolicyType", (int)policy.PolicyType);
+
+                    command.Parameters.AddWithValue("@StartDate", policy.StartDate);
+                    command.Parameters.AddWithValue("@EndDate", policy.EndDate);
+
+                    int rowsAffected = command.ExecuteNonQuery(); 
+
+                    if (rowsAffected > 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        //Console.WriteLine("Policy added successfully.");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Error: Policy not added.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error adding policy: {ex.Message}");
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
             }
-            policies.Add(policy);
         }
 
-        
+        // Update an existing policy
         public void UpdatePolicy(int policyID, Policy updatedPolicy)
         {
-            var policy = policies.FirstOrDefault(p => p.PolicyID == policyID);
-            if (policy == null)
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                throw new Exception("Policy not found.");
+                try
+                {
+                    connection.Open();
+
+                    var query = "UPDATE Policies SET PolicyHolderName = @PolicyHolderName, " +
+                                "PolicyType = @PolicyType, StartDate = @StartDate, EndDate = @EndDate " +
+                                "WHERE PolicyID = @PolicyID";
+
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@PolicyID", policyID);
+                    command.Parameters.AddWithValue("@PolicyHolderName", updatedPolicy.PolicyHolderName);
+
+                    
+                    command.Parameters.AddWithValue("@PolicyType", (int)updatedPolicy.PolicyType);
+
+                    command.Parameters.AddWithValue("@StartDate", updatedPolicy.StartDate);
+                    command.Parameters.AddWithValue("@EndDate", updatedPolicy.EndDate);
+
+                    int rowsAffected = command.ExecuteNonQuery(); 
+
+                    if (rowsAffected > 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        //Console.WriteLine("Policy updated successfully.");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Error: Policy not found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error updating policy: {ex.Message}");
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
             }
-            policy.PolicyHolderName = updatedPolicy.PolicyHolderName;
-            policy.PolicyType = updatedPolicy.PolicyType;
-            policy.StartDate = updatedPolicy.StartDate;
-            policy.EndDate = updatedPolicy.EndDate;
         }
 
-       
+        // Get a policy by ID
         public Policy GetPolicyByID(int policyID)
         {
-            return policies.FirstOrDefault(p => p.PolicyID == policyID);
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    var query = "SELECT * FROM Policies WHERE PolicyID = @PolicyID";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@PolicyID", policyID);
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        return new Policy(
+                            (int)reader["PolicyID"],
+                            reader["PolicyHolderName"].ToString(),
+                            (PolicyType)Enum.Parse(typeof(PolicyType), reader["PolicyType"].ToString()),
+                            (DateTime)reader["StartDate"],
+                            (DateTime)reader["EndDate"]
+                        );
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Policy not found.");
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error fetching policy: {ex.Message}");
+                    return null;
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
+            }
         }
 
-      
+        // Get all policies
         public List<Policy> GetAllPolicies()
         {
-            return policies;
+            List<Policy> policies = new List<Policy>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    var query = "SELECT * FROM Policies";
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        policies.Add(new Policy(
+                            (int)reader["PolicyID"],
+                            reader["PolicyHolderName"].ToString(),
+                            (PolicyType)Enum.Parse(typeof(PolicyType), reader["PolicyType"].ToString()),
+                            (DateTime)reader["StartDate"],
+                            (DateTime)reader["EndDate"]
+                        ));
+                    }
+
+                    return policies;
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error fetching policies: {ex.Message}");
+                    return policies;
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
+            }
         }
 
-        
+        // Delete a policy by ID
         public void DeletePolicy(int policyID)
         {
-            var policy = policies.FirstOrDefault(p => p.PolicyID == policyID);
-            if (policy == null)
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                throw new Exception("Policy not found.");
+                try
+                {
+                    connection.Open();
+
+                    var query = "DELETE FROM Policies WHERE PolicyID = @PolicyID";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@PolicyID", policyID);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        //Console.WriteLine("Policy deleted successfully.");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Error: Policy not found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error deleting policy: {ex.Message}");
+                }
+                finally
+                {
+                    Console.ResetColor();
+                }
             }
-            policies.Remove(policy);
         }
     }
 }
