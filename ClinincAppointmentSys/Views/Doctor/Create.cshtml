@@ -1,0 +1,49 @@
+﻿@model ClinincAppointmentSys.Models.Doctor
+
+@{
+    ViewData["Title"] = "Create Doctor";
+}
+
+<h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+<h4 class="text-center text-primary">Create a New Doctor</h4>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <form asp-action="Create" class="shadow-sm p-4 rounded bg-light">
+           
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <!-- Name Input Field -->
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" placeholder="Enter doctor's name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Specialty Input Field -->
+            <div class="form-group mb-3">
+                <label asp-for="Specialty" class="form-label"></label>
+                <input asp-for="Specialty" class="form-control" placeholder="Enter specialty" />
+                <span asp-validation-for="Specialty" class="text-danger"></span>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group text-center">
+                <input type="submit" value="Create Doctor" class="btn btn-success btn-lg" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Back to List Link -->
+<div class="text-center mt-4">
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to Doctor List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

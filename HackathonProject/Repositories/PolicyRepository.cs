@@ -38,7 +38,7 @@ namespace InsurancePolicyManagementApp.Repositories
                     if (rowsAffected > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        //Console.WriteLine("Policy added successfully.");
+                        Console.WriteLine("Policy added successfully.");
                     }
                     else
                     {
@@ -86,7 +86,7 @@ namespace InsurancePolicyManagementApp.Repositories
                     if (rowsAffected > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        //Console.WriteLine("Policy updated successfully.");
+                        Console.WriteLine("Policy updated successfully.");
                     }
                     else
                     {
@@ -211,7 +211,7 @@ namespace InsurancePolicyManagementApp.Repositories
                     if (rowsAffected > 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        //Console.WriteLine("Policy deleted successfully.");
+                        Console.WriteLine("Policy deleted successfully.");
                     }
                     else
                     {
