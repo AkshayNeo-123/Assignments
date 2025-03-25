@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ClinincAppointmentSys.Models;
-using ClinincAppointmentSys.Services;  // The namespace for your service layer
+using ClinincAppointmentSys.Services;
+using Microsoft.AspNetCore.Authorization;  // The namespace for your service layer
 
 namespace ClinincAppointmentSys.Controllers
 {
+    
     public class DoctorController : Controller
     {
         private readonly IDoctorService _doctorService;
@@ -17,13 +19,13 @@ namespace ClinincAppointmentSys.Controllers
         public async Task<IActionResult> Index()
         {
             var userRole = HttpContext.Session.GetString("UserRole");
+            var doctors = await _doctorService.GetAllDoctorsAsync();
             if (userRole != "Doctor")
             {
                 return RedirectToAction("UnauthorizedAccess", "Home");
             }
-            return View();
-            var doctors = await _doctorService.GetAllDoctorsAsync();
-            return View(doctors);  // Returns a view with a list of doctors
+            return View(doctors);
+            //return View(doctors);  
         }
 
         // GET: Doctor/Details/5
@@ -34,7 +36,7 @@ namespace ClinincAppointmentSys.Controllers
             {
                 return NotFound();
             }
-            return View(doctor);  // Returns a view for viewing the doctor's details
+            return View(doctor);  
         }
 
         // GET: Doctor/Create
@@ -43,9 +45,9 @@ namespace ClinincAppointmentSys.Controllers
             if (ModelState.IsValid)
             {
                 await _doctorService.CreateDoctorAsync(doctor);
-                return RedirectToAction(nameof(Index));  // Redirects to the Index page after successful creation
+                return RedirectToAction(nameof(Index));  
             }
-            return View(doctor);  // Returns the same view with the validation errors
+            return View(doctor);  
         }
 
 
@@ -57,7 +59,7 @@ namespace ClinincAppointmentSys.Controllers
             {
                 return NotFound();
             }
-            return View(doctor);  // Returns a view for editing the doctor's details
+            return View(doctor);  
         }
 
         // POST: Doctor/Edit/5
@@ -73,9 +75,9 @@ namespace ClinincAppointmentSys.Controllers
             if (ModelState.IsValid)
             {
                 await _doctorService.UpdateDoctorAsync(doctor);
-                return RedirectToAction(nameof(Index));  // Redirects to the Index page after successful update
+                return RedirectToAction(nameof(Index));  
             }
-            return View(doctor);  // Returns the same view with validation errors
+            return View(doctor); 
         }
 
         // GET: Doctor/Delete/5
@@ -86,7 +88,7 @@ namespace ClinincAppointmentSys.Controllers
             {
                 return NotFound();
             }
-            return View(doctor);  // Returns a view for confirming deletion
+            return View(doctor);  
         }
 
         // POST: Doctor/Delete/5
@@ -95,7 +97,7 @@ namespace ClinincAppointmentSys.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _doctorService.DeleteDoctorAsync(id);
-            return RedirectToAction(nameof(Index));  // Redirects to the Index page after deletion
+            return RedirectToAction(nameof(Index));  
         }
     }
 }

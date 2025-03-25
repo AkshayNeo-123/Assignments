@@ -1,69 +1,65 @@
 ﻿@model IEnumerable<ClinincAppointmentSys.Models.Appointment>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Appointments";
 }
 
-<h1>Index</h1>
+<div class="container mt-4">
+    <div class="card shadow-lg p-4 rounded-3">
+        <h2 class="text-center mb-4 text-primary">Appointments</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Patient)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Doctor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AppointmentDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @if (item.Patient != null)
-                    {
-                        @Html.DisplayFor(modelItem => item.Patient.Id)
-                    }
-                    else
-                    {
-                        <span class="text-danger">No Patient</span>
-                    }
-                </td>
-                <td>
-                    @if (item.Doctor != null)
-                    {
-                        @Html.DisplayFor(modelItem => item.Doctor.Id)
-                    }
-                    else
-                    {
-                        <span class="text-danger">No Doctor</span>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AppointmentDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
+        <div class="d-flex justify-content-end mb-3">
+            <a asp-action="Create" class="btn btn-success rounded-pill px-4">
+                + Create New Appointment
+            </a>
+        </div>
 
-</table>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Patient</th>
+                        <th>Doctor</th>
+                        <th>Appointment Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (item.Patient != null)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Patient.Id)
+                                }
+                                else
+                                {
+                                    <span class="text-danger">No Patient</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Doctor != null)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Doctor.Id)
+                                }
+                                else
+                                {
+                                    <span class="text-danger">No Doctor</span>
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.AppointmentDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm rounded-pill px-3">Edit</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm rounded-pill px-3">Details</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm rounded-pill px-3">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

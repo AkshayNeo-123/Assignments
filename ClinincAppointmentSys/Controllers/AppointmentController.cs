@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClinincAppointmentSys.Controllers
 {
+
     public class AppointmentController : Controller
     {
         private readonly IAppointmentService _appointmentService;
@@ -20,34 +21,17 @@ namespace ClinincAppointmentSys.Controllers
             _doctorService = doctorService;
         }
 
-        // GET: Appointment/Index
-        //public async Task<IActionResult> Index()
-        //{
-        //    var userRole = HttpContext.Session.GetString("UserRole");
-        //    if (userRole != "Patient")
-        //    {
-        //        return RedirectToAction("UnauthorizedAccess", "Home");
-        //    }
-        //    return View();
-        //    var appointments = await _appointmentService.GetAllAppointmentsAsync();
-
-        //    // Debug output
-        //    foreach (var appt in appointments)
-        //    {
-        //        Console.WriteLine($"Appointment ID: {appt.Id}, Patient: {appt.PatientId}, Doctor: {appt.DoctorId}");
-        //    }
-
-        //    return View(appointments);
-        //}
-
         public async Task<IActionResult> Index()
         {
+            var user = HttpContext.Session.GetString("UserRole");
             var appointments = await _appointmentService.GetAllAppointmentsAsync();
+            
 
-            if (appointments == null)
+            if (user != "Patient")
             {
-                appointments = new List<Appointment>(); // Ensure Model is not null
+                return RedirectToAction("UnauthorizedAccess", "Home");
             }
+          
 
             return View(appointments);
         }
@@ -56,17 +40,29 @@ namespace ClinincAppointmentSys.Controllers
         // GET: Appointment/Details/5
         public async Task<IActionResult> Details(int id)
         {
+            var user = HttpContext.Session.GetString("UserRole");
+            
+
             var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
-            if (appointment == null)
+            if (user != "Patient")
             {
-                return NotFound();
+                return RedirectToAction("UnauthorizedAccess", "Home");
             }
+            
             return View(appointment);
         }
 
         // GET: Appointment/Create
         public async Task<IActionResult> Create()
         {
+
+            var user = HttpContext.Session.GetString("UserRole");
+            if (user != "Patient")
+            {
+                return RedirectToAction("UnauthorizedAccess", "Home");
+            }
+
+
             var doctors = await _doctorService.GetAllDoctorsAsync();
 
             // Get logged-in user ID
@@ -75,6 +71,10 @@ namespace ClinincAppointmentSys.Controllers
             if (userId == null)
             {
                 return RedirectToAction("Index", "Login"); // Redirect if not logged in
+            }
+            if (user != "Patient")
+            {
+                return RedirectToAction("UnauthorizedAccess", "Home");
             }
 
             // Get only the logged-in user details
@@ -137,6 +137,11 @@ namespace ClinincAppointmentSys.Controllers
         // GET: Appointment/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
+            var user = HttpContext.Session.GetString("UserRole");
+            if (user != "Patient")
+            {
+                return RedirectToAction("UnauthorizedAccess", "Home");
+            }
             var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
             if (appointment == null)
             {
@@ -185,6 +190,11 @@ namespace ClinincAppointmentSys.Controllers
         // GET: Appointment/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
+            var user = HttpContext.Session.GetString("UserRole");
+            if (user != "Patient")
+            {
+                return RedirectToAction("UnauthorizedAccess", "Home");
+            }
             var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
             if (appointment == null)
             {

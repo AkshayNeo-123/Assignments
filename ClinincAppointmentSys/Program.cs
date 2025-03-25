@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ClinincAppointmentSys; // Replace with your actual namespace
 using Microsoft.Extensions.DependencyInjection;
 using ClinincAppointmentSys.Repositories;
@@ -42,6 +42,8 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
